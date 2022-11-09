@@ -7,7 +7,7 @@ def fo2_to_iron_kc91(C,T,P,lnfo2):
     Parameters
     ----------
     C: dictionary
-        Major element composition of the silicate melt as mole fractions
+        Major element composition of the silicate melt as MOLE FRACTIONS
         Required species: Al2O3, FeOt, CaO,  Na2O, K2O    
     T: float
         Temperature in degrees K    
