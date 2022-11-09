@@ -48,11 +48,11 @@ def calcBuffer(name, T, P):
             return frost1991('NNO', T, P)
     elif name == 'MH':
         if T < 573+273.15:
-            frost1991('MH_lowT', T, P)
+            return frost1991('MH_lowT', T, P)
         elif T < 682+273.15:
-            frost1991('MH_midT', T, P)
+            return frost1991('MH_midT', T, P)
         else:
-            frost1991('MH_highT', T, P)
+            return frost1991('MH_highT', T, P)
     else:
         raise core.InputError('Buffer name not recognized')
 
@@ -121,7 +121,7 @@ def calc_iw_highp(P, T):
 	Returns
 	-------
 	float
-		log10(fO2) # PL: double check
+		log10(fO2)
 
     References
     ----------
@@ -158,7 +158,7 @@ def calc_nno_highp(P, T):
     Returns
     -------
     float
-	    log10(fO2) # PL: double check
+	    log10(fO2)
 
 	References
 	----------
@@ -174,12 +174,12 @@ def calc_nno_highp(P, T):
 	a2: -0.0002755
 	a3: 0.000002683
 	a4: -1.015E-08
-	b0: -28163.6
-	b1: 546.32
+	b0: -24205
+	b1: 444.73
 	b2: -0.59288
 	b3: 0.0015292                            
 	"""
 	log_fO2 = (8.699 + 0.01642*P -0.0002755*P**2 + 2.683e-6*P**3 - 1.015e-8*P**4) + (
-            -28163.6 + 546.32*P - 0.59288*P**2 + 0.0015292*P**3)/T
+            -24205 + 444.73*P - 0.59288*P**2 + 0.0015292*P**3)/T
 
 	return log_fO2
