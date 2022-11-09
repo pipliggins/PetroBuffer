@@ -10,7 +10,7 @@ oxideMass = {'sio2':  60.083,
              'k2o':   94.195,
              'mno':   70.937,
              'tio2':  79.867,
-             'P2O5':  141.943,
+             'p2o5':  141.943,
              'cr2o3': 151.992,
              'nio':   74.692,
              'coo':   44.01,    #CoO
@@ -72,15 +72,17 @@ def wtOxides_to_molOxides(C:dict)->dict:
     original_sum = sum(C.values())
 
     for ele, wt in C.items():
-        C[ele].update((wt*100)/original_sum)
+        C[ele] = (wt*100)/original_sum
 
     # convert
     C_mol = {}
     sm = 0
 
     for ele in C:
-        C_mol[ele] = C[ele] / oxideMass[ele]
-        sm += C[ele] / oxideMass[ele]
+        if ele.lower() not in oxideMass:
+            raise KeyError(f"Sorry, I don't know the mass of '{ele}'.")
+        C_mol[ele] = C[ele] / oxideMass[ele.lower()]
+        sm += C[ele] / oxideMass[ele.lower()]
 
     for ele in C:
         C_mol[ele] = C_mol[ele] / sm
@@ -94,8 +96,10 @@ def molOxides_to_wtOxides(Cmol:dict)->dict:
     sm = 0
 
     for ele in Cmol:
-        Cwt[ele] = Cmol[ele] * oxideMass[ele]
-        sm += Cmol[ele] * oxideMass[ele]
+        if ele.lower() not in oxideMass:
+            raise KeyError(f"Sorry, I don't know the mass of '{ele}'.")
+        Cwt[ele] = Cmol[ele] * oxideMass[ele.lower()]
+        sm += Cmol[ele] * oxideMass[ele.lower()]
 
     for ele in Cmol:
         Cwt[ele] = Cwt[ele]*100 / sm
