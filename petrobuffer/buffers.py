@@ -54,7 +54,7 @@ def calcBuffer(name, T, P):
         else:
             return frost1991('MH_highT', T, P)
     else:
-        raise core.InputError('Buffer name not recognized')
+        raise core.InputError(f"'{name}' not recognized as a buffer.")
 
 # --------------------- DEFINE BUFFER EQUATIONS ------------------------ #
 

@@ -1,5 +1,5 @@
 
-# --------- DEFINE SOME CONSTANTS -----------#
+# --------- DEFINE SOME CONSTANTS & CONVERSIONS -----------#
 
 oxideMass = {'sio2':  60.083,
              'mgo':   40.304,
@@ -32,6 +32,12 @@ class InputError(Error):
 
     def __init__(self, message):
         self.message = message
+
+# ------------TEMPERATURE CONVERSIONS----------- #
+
+def C2K(T):
+    """Convert temperatures in degrees Celsius to Kelvin"""
+    return T + 273.15
 
 # -------------PRESSURE CONVERSIONS------------- #
 

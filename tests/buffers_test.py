@@ -3,9 +3,12 @@
 import petrobuffer as pb
 import pytest
 
+from petrobuffer.core import InputError
+
 def test_calcBuffer_when_bufferUnrecognised_throwException():
-    with pytest.raises(Exception):
+    with pytest.raises(InputError) as exc:
         pb.buffers.calcBuffer('BIF', 1473.15, 1)
+    assert "not recognized as a buffer" in str(exc.value)
 
 def test_calcBuffer_when_IW_highP_return_correctValue():
     assert pb.buffers.calcBuffer('IW', 1200, 110000) == pytest.approx(-12.019336)

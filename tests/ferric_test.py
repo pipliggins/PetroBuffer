@@ -29,17 +29,18 @@ def test_IronToFo2Kc91_where_correctInput_gives_appropriateValue():
     assert pb.ferric.iron_to_fo2_kc91(test_composition, 1473.15, 1) == pytest.approx(-6.4952, 0.01)
 
 def test_Fo2ToIronR2013_where_correctInput_gives_appropriateValue():
-    test_composition = {'sio2' : 0.5771, # mole fractions
-                    'tio2' : 0.0102,
-                    'al2o3': 0.0262,
-                    'feo'  : 0.1685,
-                    'mno'  : 0.0023,
-                    'mgo'  : 0.0785,
-                    'cao'  : 0.1155,
-                    'na2o' : 0.0183,
-                    'k2o'  : 0.00173,
-                    'p2o5' : 0.0016}    
-    assert pb.ferric.fo2_to_iron_r13(test_composition, 1473.15, 1, -19.6967) == pytest.approx(0.048762, 0.001)
+    test_composition = {'sio2' : 0.48121, # mole fractions
+                    'tio2' : 0.003642,
+                    'al2o3': 0.060635,
+                    'feo'  : 0.181667,
+                    'mno'  : 0.002792,
+                    'mgo'  : 0.159075,
+                    'cao'  : 0.082879,
+                    'na2o' : 0.025262,
+                    'k2o'  : 0.00092,
+                    'p2o5' : 0.001918}    
+    assert pb.ferric.fo2_to_iron_r13(test_composition, 1679.15, 1.2, -17.09620888) == pytest.approx(0.117923975, 0.0001)
+
 
 def test_IronToFo2R2013_where_correctInput_gives_appropriateValue():
     test_composition = {'sio2' : 0.5771, # mole fractions

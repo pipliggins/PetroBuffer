@@ -150,21 +150,21 @@ def fo2_to_iron_r13(C, T, P, lnfo2):
     Polynomial coefficients
     -----------------------  
 	ln(X_Fe2O3/X_FeO) = a*lnfo2 + b/T + c*(P/T) + sum(d_i*X_i) + j
-    
+    """
     a = 0.22
     b = 3800
     c = -370
     dfeo = -6.6
     dal2o3 = 7.3
     dcao = 17.3
-    dna2o3 = 132.3
+    dna2o = 132.3
     dk2o = -147.8
     dp2o5 = 0.6
     j = -4.26       
-    """
+    
 
-    F = np.exp(0.22*lnfo2 + 3800/T - 370*(P/T) - 6.6*C['feo'] + 7.3*C['al2o3']
-        + 17.3*C['cao'] + 132.3*C['na2o'] - 147.8*C['k2o'] + 0.6*C['p2o5'] - 4.26)
+    F = np.exp(a*lnfo2 + b/T + c*(P/T) + dfeo*C['feo'] + dal2o3*C['al2o3']
+        + dcao*C['cao'] + dna2o*C['na2o'] + dk2o*C['k2o'] + dp2o5*C['p2o5'] + j)
     
     return F
 
@@ -195,24 +195,24 @@ def iron_to_fo2_r13(C, T, P):
 
     Polynomial coefficients
     -----------------------  
-    ln(lnfo2) = (ln(X_Fe2O3/X_FeO) - b/T - c*(P/T) - sum(d_i*X_i) - j)/a
-    
+    ln(fo2) = (ln(X_Fe2O3/X_FeO) - b/T - c*(P/T) - sum(d_i*X_i) - j)/a
+    """
     a = 0.22
     b = 3800
     c = -370
     dfeo = -6.6
     dal2o3 = 7.3
     dcao = 17.3
-    dna2o3 = 132.3
+    dna2o = 132.3
     dk2o = -147.8
     dp2o5 = 0.6
     j = -4.26       
-    """
+    
 
     FeOt = C['feo'] + C['fe2o3']*0.8998     # total iron mole fraction
 
-    lnfo2 = (np.log(C['fe2o3']/C['feo']) - 3800/T + 370*(P/T) + 6.6*(FeOt)
-            - 7.3*C['al2o3'] - 17.3*C['cao'] - 132.3*C['na2o'] + 147.8*C['k2o']
-            - 0.6*C['p2o5'] + 4.26)/0.22
+    lnfo2 = (np.log(C['fe2o3']/C['feo']) - (b/T + c*(P/T) + dfeo*(FeOt)
+            + dal2o3*C['al2o3']  + dcao*C['cao'] + dna2o*C['na2o'] + dk2o*C['k2o']
+            + dp2o5*C['p2o5'] + j))/a
     
     return lnfo2

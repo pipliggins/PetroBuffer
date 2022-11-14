@@ -5,7 +5,9 @@ add warnings about T/P limits
 
 from typing import Union
 import numpy as np
-import core, buffers, ferric
+from petrobuffer import core
+from petrobuffer import buffers
+from petrobuffer import ferric
 
 # ------------------- FO2 BUFFERS ------------------------
 
@@ -37,6 +39,13 @@ def get_relative_fo2(fO2, buffer, T, P, celsius=False):
     if celsius == True:
         T += 273.15    # convert temperature to K
 
+    if buffer == 'CoCoO':
+        pass
+    elif buffer == 'cocoo':
+        buffer = 'CoCoO'
+    else:
+        buffer = buffer.upper()
+
     return fO2 - buffers.calcBuffer(buffer, T, P)
 
 def get_absolute_fo2(fO2, buffer, T, P, celsius=False):
@@ -67,6 +76,13 @@ def get_absolute_fo2(fO2, buffer, T, P, celsius=False):
     if celsius == True:
         T += 273.15    # convert temperature to K
 
+    if buffer == 'CoCoO':
+        pass
+    elif buffer == 'cocoo':
+        buffer = 'CoCoO'
+    else:
+        buffer = buffer.upper()
+
     return fO2 + buffers.calcBuffer(buffer, T, P)
 
 def convert_buffer(fO2:Union[float, int], old_buffer:str, new_buffer:str, T:Union[float,
@@ -77,9 +93,9 @@ def convert_buffer(fO2:Union[float, int], old_buffer:str, new_buffer:str, T:Unio
     Parameters
 	----------
     fO2 : float
-        The current fO2, relative to old_buffer    
+        The current fO2, relative to `old_buffer`  
     old_buffer : string
-        name of the original buffer the fO2 is relative to.
+        name of the original buffer the `fO2` is relative to.
         one from: QIF, IW, WM, IM, CoCoO, FMQ, NNO, MH.
     new_buffer : string
         name of the new buffer the fO2 should be relative to.
@@ -100,6 +116,17 @@ def convert_buffer(fO2:Union[float, int], old_buffer:str, new_buffer:str, T:Unio
 
     if celsius == True:
         T += 273.15    # convert temperature to K
+    
+    bfs = [old_buffer, new_buffer]
+    for idx, buffer in enumerate(bfs):
+        if buffer == 'CoCoO':
+            pass
+        elif buffer == 'cocoo':
+            bfs[idx] = 'CoCoO'
+        else:
+            bfs[idx] = buffer.upper()
+
+    old_buffer, new_buffer = bfs
     
     absolute_fo2 = fO2 + buffers.calcBuffer(old_buffer, T, P)
 
@@ -169,10 +196,10 @@ def get_ironOxide(C:dict, fO2:Union[float, int], T:Union[float, int],
     match_feo_name = feot_options_set.intersection(C_set)
 
     # check iron is present in the composition dict, + ensure it's in the correct form
-    if (C_lower['feo'] and C_lower['fe2o3']):
+    if 'feo' in C_lower and 'fe2o3' in C_lower:
         C_lower['feo'] = (C_lower['feo'] + 0.8998*C_lower['fe2o3'])*100/original_sum
         C_lower.pop('fe2o3')
-    elif C_lower['fe2o3'] and not C_lower['feo']:
+    elif 'fe2o3' in C_lower and 'feo' not in C_lower:
         C_lower['feo'] = (0.8998*C_lower['fe2o3'])*100/original_sum
         C_lower.pop('fe2o3')
     elif match_feo_name:
@@ -199,7 +226,7 @@ def get_ironOxide(C:dict, fO2:Union[float, int], T:Union[float, int],
             /ferrous ratio are missing. Include all of {required_species}, where FeO is\
                 total iron.")
 
-    oxide_mf = core.wtOxides_to_molOxides(C_lower)
+    oxide_mf = core.wtOxides_to_molOxides(C_lower.copy())
 
     # convert fO2 to ln(fO2)
     if isinstance(buffer, str):
@@ -212,8 +239,8 @@ def get_ironOxide(C:dict, fO2:Union[float, int], T:Union[float, int],
     elif force_model == 'r2013':
         F = ferric.fo2_to_iron_r13(oxide_mf, T, core.bar_to_gpa(P), lnfO2)
 
-    oxide_mf['fe2o3'] = F*oxide_mf['feo']/(1+0.8998*F)
-    oxide_mf['feo'] = oxide_mf['fe2o3']/F
+    oxide_mf['feo'] = oxide_mf['feo']/(2*F + 1)
+    oxide_mf['fe2o3'] = oxide_mf['feo']*F
 
     # calculate the new composition holding the mole fraction of total Fe
     # constant and recalculating XFeO and XFe2O3.
@@ -225,9 +252,16 @@ def get_ironOxide(C:dict, fO2:Union[float, int], T:Union[float, int],
     C_lower['fe2o3'] = oxide_mf_X_mw['fe2o3']*100/total
 
     if normalised_comp == False:
+        for sp in C:
+            C_lower[sp] = C_lower.pop(sp.lower())
+        C_lower['Fe2O3'] = C_lower.pop('fe2o3')
         return F, C_lower
     else:
-        return F, core.molOxides_to_wtOxides(oxide_mf)
+        C_new = core.molOxides_to_wtOxides(oxide_mf.copy())
+        for sp in C:
+            C_new[sp] = C_new.pop(sp.lower())
+        C_new['Fe2O3'] = C_new.pop('fe2o3')
+        return F, C_new
     
 
 def get_meltfO2(C:dict, T:Union[float, int], P:Union[float, int], celsius=False,
@@ -274,7 +308,7 @@ def get_meltfO2(C:dict, T:Union[float, int], P:Union[float, int], celsius=False,
              {buffer_options}")
     
     if celsius == True:
-        T += 273.15    # convert degrees C to K
+        T = core.C2K(T)    # convert degrees C to K
         
     C_lower = dict((k.lower(), v) for k,v in C.items())
 
@@ -282,7 +316,7 @@ def get_meltfO2(C:dict, T:Union[float, int], P:Union[float, int], celsius=False,
         raise core.InputError("Composition is missing an iron species. Please include\
              both FeO and Fe2O3.")
 
-    feo_total = C['feo'] + (C['fe2o3']/core.oxideMass['fe2o3'])*core.oxideMass['feo']
+    feo_total = C_lower['feo'] + (C_lower['fe2o3']/core.oxideMass['fe2o3'])*2*core.oxideMass['feo']
     
     if force_model == None:
         if feo_total < 15.0:
@@ -298,7 +332,7 @@ def get_meltfO2(C:dict, T:Union[float, int], P:Union[float, int], celsius=False,
         raise core.InputError(f"Some of the required species for calculating the ferric\
             /ferrous ratio are missing. Include all of {required_species}.")
 
-    oxide_mf = core.wtOxides_to_molOxides(C_lower)
+    oxide_mf = core.wtOxides_to_molOxides(C_lower.copy())
     
     if force_model == 'kc1991':
         absolute_fo2 = np.log10(np.exp(ferric.iron_to_fo2_kc91(oxide_mf, T,
