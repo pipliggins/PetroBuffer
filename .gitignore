@@ -2,9 +2,10 @@ src/petrobuffer/__pycache__
 tests/__pycache__
 .vscode/settings.json
 
-.env
-
 for_testing.py
 
 # sphinx docs
 docs/build/
+
+# flit
+dist/
