@@ -6,14 +6,14 @@ def fo2_to_iron_kc91(C,T,P,lnfo2):
 
     Parameters
     ----------
-    C: dictionary
+    C : dictionary
         Major element composition of the silicate melt as MOLE FRACTIONS
         Required species: Al2O3, FeOt, CaO,  Na2O, K2O    
-    T: float
+    T : float
         Temperature in degrees K    
-    P: float
+    P : float
         Pressure in pascals (Pa)    
-    lnfo2: float
+    lnfo2 : float
         ln(fO2)
 
     Returns
@@ -27,9 +27,9 @@ def fo2_to_iron_kc91(C,T,P,lnfo2):
     containing Fe2O3 and the effect of composition, temperature, oxygen 
     fugacity and pressure on their redox states
     
-    Polynomial coefficients
-	-----------------------
-	ln(X_Fe2O3/X_FeO) = a*FO2 + b/T + c + sum(d_i*X_i) + e*[1-T0/T-ln(T/T0)]
+    Notes
+    -----------------------
+    ln(X_Fe2O3/X_FeO) = a*FO2 + b/T + c + sum(d_i*X_i) + e*[1-T0/T-ln(T/T0)]
                          + f*P/T + g*[(T-T0)*P]/T + h*P^2/T
     
     a = 0.196
@@ -67,12 +67,12 @@ def iron_to_fo2_kc91(C,T,P):
 
     Parameters
     ----------
-    C: dictionary
+    C : dictionary
         Major element composition of the silicate melt as mole fractions
         Required species: Al2O3, FeO, Fe2O3, CaO,  Na2O, K2O    
-    T: float
+    T : float
         Temperature in degrees K    
-    P: float
+    P : float
         Pressure in pascals (Pa)
 
     Returns
@@ -86,9 +86,9 @@ def iron_to_fo2_kc91(C,T,P):
     containing Fe2O3 and the effect of composition, temperature, oxygen
     fugacity and pressure on their redox states
     
-    Polynomial coefficients
-	-----------------------  
-	ln(fO2) = [ln(X_Fe2O3/X_FeO) - b/T - c - sum(d_i*X_i) 
+    Notes
+    -----------------------  
+    ln(fO2) = [ln(X_Fe2O3/X_FeO) - b/T - c - sum(d_i*X_i) 
             - e*[1-T0/T-ln(T/T0)] - f*P/T - g*[(T-T0)*P]/T - h*P^2/T]/a
     
     a = 0.196
@@ -127,14 +127,14 @@ def fo2_to_iron_r13(C, T, P, lnfo2):
 
     Parameters
     ----------
-    C: dictionary
+    C : dictionary
         Major element composition of the silicate melt as mole fractions
         Required species: Al2O3, FeOt, CaO, Na2O, K2O, P2O5    
-    T: float
+    T : float
         Temperature in degrees K    
-    P: float
+    P : float
         Pressure in gigapascals (GPa)    
-    lnfo2: float
+    lnfo2 : float
         ln(fO2)
 
     Returns
@@ -146,10 +146,6 @@ def fo2_to_iron_r13(C, T, P, lnfo2):
     ----------
     Righter et al. (2013) Redox systematics of martian magmas with
     implications for magnetite stability.
-    
-    Polynomial coefficients
-    -----------------------  
-	ln(X_Fe2O3/X_FeO) = a*lnfo2 + b/T + c*(P/T) + sum(d_i*X_i) + j
     """
     a = 0.22
     b = 3800
@@ -192,10 +188,6 @@ def iron_to_fo2_r13(C, T, P):
     ----------
     Righter et al. (2013) Redox systematics of martian magmas with 
     implications for magnetite stability.
-
-    Polynomial coefficients
-    -----------------------  
-    ln(fo2) = (ln(X_Fe2O3/X_FeO) - b/T - c*(P/T) - sum(d_i*X_i) - j)/a
     """
     a = 0.22
     b = 3800

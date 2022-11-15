@@ -1,8 +1,4 @@
-"""
-PL:
-add warnings about T/P limits
-"""
-
+# PL add warning about T/P limits
 from typing import Union
 import numpy as np
 from petrobuffer import core
@@ -18,22 +14,21 @@ def get_relative_fo2(fO2, buffer, T, P, celsius=False):
     Parameters
     ----------
     fO2 : float
-        absolute fO2, as log10(fO2)    
-    buffer: string
+        absolute fO2, as log10(fO2)
+    buffer : str
         name of the buffer to give fO2 as relative to.
         one from: QIF, IW, WM, IM, CoCoO, FMQ, NNO, MH.    
-    T: float
-		Temperature in degrees K        
-    P: float
-		Pressure in bar
-    celsius: bool, optional
-        If true, temperature (T) can be given in celsius rather than
-         degrees Kelvin.
+    T : float
+        Temperature in degrees K        
+    P : float
+        Pressure in bar
+    celsius : bool, default=False
+        Whether temperatures are in Kelvin (`False`) or celsius (`True`)
 
-	Returns
-	-------
-	float
-		fO2 relative to the specified buffer, given as log10(fO2)
+    Returns
+    -------
+    float
+        fO2 relative to the specified buffer, given as log10(fO2)
     """
 
     if celsius == True:
@@ -55,22 +50,21 @@ def get_absolute_fo2(fO2, buffer, T, P, celsius=False):
     Parameters
     ----------
     fO2 : float
-        fO2 relative to `buffer`    
-    buffer : string
+        fO2 relative to `buffer`
+    buffer : str
         name of the buffer to give fO2 as relative to.
         one from: QIF, IW, WM, IM, CoCoO, FMQ, NNO, MH.    
     T : float
-		Temperature in degrees K        
+        Temperature in degrees K        
     P : float
-		Pressure in bar
-    celsius : bool, optional
-        If true, temperature (T) can be given in celsius rather than
-         degrees Kelvin.
-
-	Returns
-	-------
-	float
-		fO2 relative to the specified buffer, given as log10(fO2)
+        Pressure in bar
+    celsius : bool, default=False
+        Whether temperatures are in Kelvin (`False`) or celsius (`True`)
+        
+    Returns
+    -------
+    float
+        fO2 relative to the specified buffer, given as log10(fO2)
     """
 
     if celsius == True:
@@ -88,30 +82,29 @@ def get_absolute_fo2(fO2, buffer, T, P, celsius=False):
 def convert_buffer(fO2:Union[float, int], old_buffer:str, new_buffer:str, T:Union[float,
                     int], P:Union[float, int], celsius:bool=False)->float:
     """
-    Translate an fO2 value from on relative buffer to another.
+    Translate an fO2 value from one relative buffer to another.
 
     Parameters
-	----------
-    fO2 : float
-        The current fO2, relative to `old_buffer`  
-    old_buffer : string
-        name of the original buffer the `fO2` is relative to.
-        one from: QIF, IW, WM, IM, CoCoO, FMQ, NNO, MH.
-    new_buffer : string
-        name of the new buffer the fO2 should be relative to.
-        one from: QIF, IW, WM, IM, CoCoO, FMQ, NNO, MH.    
-    T : float
-		Temperature in degrees K        
-    P : float
-		Pressure in bar
-    celsius : bool, optional
-        If true, temperature (T) can be given in Celsius rather than
-         degrees Kelvin.
+    ----------
+    fO2 : float or int
+        The current fO2, relative to `old_buffer`.
+    old_buffer : str
+        Name of the original buffer the `fO2` is relative to.\
+        One from: QIF, IW, WM, IM, CoCoO, FMQ, NNO, MH.
+    new_buffer : str
+        Name of the new buffer the fO2 should be relative to.\
+        One from: QIF, IW, WM, IM, CoCoO, FMQ, NNO, MH.
+    T : float or int
+        Temperature in degrees K
+    P : float or int
+        Pressure in bar
+    celsius : bool, default=False
+        Whether temperatures are in Kelvin (`False`) or celsius (`True`)
 
-	Returns
-	-------
-	float
-		fO2 relative to the new buffer, given as log10(fO2)
+    Returns
+    -------
+    float
+        fO2 relative to the new buffer, given as log10(fO2)
     """
 
     if celsius == True:
@@ -164,8 +157,8 @@ def get_ironOxide(C:dict, fO2:Union[float, int], T:Union[float, int],
         One of QIF, IW, WM, IM, CoCoO, FMQ, NNO, MH.
     force_model : str, optional
         Forces the model used, rather than allowing selection based on
-        total FeO content. One from kc1991 (Kress & Carmichael 1991)
-        or r2013 (Righter et.al., 2013).
+        total FeO content. One from `kc1991` (Kress & Carmichael 1991)
+        or `r2013` (Righter et.al., 2013).
     
     Returns
     -------
@@ -273,7 +266,7 @@ def get_meltfO2(C:dict, T:Union[float, int], P:Union[float, int], celsius=False,
     ----------
     C : dict
         Major element composition of the silicate melt as weight percents.
-        Required species: Al2O3, FeOt, CaO, Na2O (+ K2O if using r2013)       
+        Required species: Al2O3, FeOt, CaO, Na2O (+ K2O if using r2013)
     T : float
         Temperature in degrees K    
     P : float
@@ -286,8 +279,8 @@ def get_meltfO2(C:dict, T:Union[float, int], P:Union[float, int], celsius=False,
         One of QIF, IW, WM, IM, CoCoO, FMQ, NNO, MH.
     force_model : str, optional
         Forces the model used, rather than allowing selection based on
-        total FeO content. One from kc1991 (Kress & Carmichael 1991)
-        or r2013 (Righter et.al., 2013).
+        total FeO content. One from `kc1991` (Kress & Carmichael 1991)
+        or `r2013` (Righter et.al., 2013).
     
     Returns
     -------
