@@ -6,6 +6,8 @@
 Welcome to PetroBuffer's documentation!
 =======================================
 
+PetroBuffer is a package which performs fO2 conversions and buffer calculations commonly used in geochemistry.
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:

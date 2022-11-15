@@ -5,3 +5,6 @@ tests/__pycache__
 .env
 
 for_testing.py
+
+docs/_build*
+docs/_static*
