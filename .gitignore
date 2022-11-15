@@ -1,4 +1,4 @@
-petrobuffer/__pycache__
+src/petrobuffer/__pycache__
 tests/__pycache__
 .vscode/settings.json
 
@@ -6,5 +6,5 @@ tests/__pycache__
 
 for_testing.py
 
-docs/_build*
-docs/_static*
+# sphinx docs
+docs/build/
