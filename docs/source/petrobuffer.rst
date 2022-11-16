@@ -1,9 +1,10 @@
-API
-===
+PetroBuffer's Code Documentation
+================================
+.. contents::
 
 petrobuffer.buffers
 -------------------
-Submodule containing the buffer models
+Module containing the buffer models
 
 .. automodule:: petrobuffer.buffers
    :members:
@@ -12,7 +13,7 @@ Submodule containing the buffer models
 
 petrobuffer.conversions
 -----------------------
-Submodule containing the main PetroBuffer functions
+Module containing the main PetroBuffer functions
 
 .. automodule:: petrobuffer.conversions
    :members:
@@ -21,7 +22,7 @@ Submodule containing the main PetroBuffer functions
 
 petrobuffer.core
 ----------------
-Submodule containing core data and conversions
+Module containing core data and conversions
 
 .. automodule:: petrobuffer.core
    :members:
@@ -30,7 +31,7 @@ Submodule containing core data and conversions
 
 petrobuffer.ferric
 ------------------
-Submodule containing the ferric/ferrous <-> fO2 conversion models
+Module containing the ferric/ferrous <-> fO2 conversion models
 
 .. automodule:: petrobuffer.ferric
    :members:
