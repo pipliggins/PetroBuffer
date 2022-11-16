@@ -13,9 +13,13 @@ The current implementation has been developed in Python 3 and tested on Windows.
 Installation/Usage:
 *******************
 
-As this package has yet to be published on PyPI, it CANNOT be installed using pip.
+As this package has yet to be published on PyPI, it CANNOT be installed using pip alone.
 
-For now, the suggested method is to put the folder `petrobuffer` and it's contents in the same directory as your source files and call ``import petrobuffer``.
+For now, the suggested method is to clone this repository into the same root directory as your project files where you wish to use `PetroBuffer`.
+
+The package can then be pip installed by running ``pip install PetroBuffer/`` from your project root, and imported in your files in the same way as other packages, using ``import petrobuffer``.
+
+For usage examples, see :doc:`examples`.
 
 Limitations
 ***********
