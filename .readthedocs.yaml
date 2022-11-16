@@ -7,3 +7,8 @@ sphinx:
 python:
    install:
    - requirements: docs/source/requirements.txt
+
+python:
+  install:
+    - method: pip
+      path: .

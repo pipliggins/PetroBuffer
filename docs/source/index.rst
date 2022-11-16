@@ -12,19 +12,35 @@ The current implementation has been developed in Python 3 and tested on Windows.
 
 Installation/Usage:
 *******************
+petrobuffer is available on PyPi, and can be downloaded with pip:
+::
+   
+   pip install petrobuffer
 
-As this package has yet to be published on PyPI, it CANNOT be installed using pip alone.
+.. note:: 
+   petrobuffer is not yet packaged for Anaconda, and as such ``conda install petrobuffer`` will not work.
 
-For now, the suggested method is to clone this repository into the same root directory as your project files where you wish to use `PetroBuffer`.
+Alternatively, to access the most up-to-date *development* version, you can `clone the package from github <https://github.com/pipliggins/PetroBuffer>`_ into the same root directory as your project files where you wish to use PetroBuffer.
 
-The package can then be pip installed by running ``pip install PetroBuffer/`` from your project root, and imported in your files in the same way as other packages, using ``import petrobuffer``.
+The package can then be pip installed by running
+::
+
+   pip install PetroBuffer/
+
+from your project root, and imported in your files in the same way as other packages, using
+::
+
+   import petrobuffer
+
+.. warning::
+   Note that breaking changes occur can occur when importing a package this way, and it is not guaranteed to remain stable.
 
 For usage examples, see :doc:`examples`.
 
 Limitations
 ***********
 
-- ``PetroBuffer`` currently only supports a small number of functions. The aim is to expand this module over time.
+- ``PetroBuffer`` currently only supports a small number of functions. The aim is to expand this package over time.
 
 Acknowledgements
 ****************
